@@ -1,15 +1,19 @@
-package com.example.forum.controller;
+package com.example.forum.model;
 
-import com.example.forum.model.Curso;
-import com.example.forum.model.Topico;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.example.forum.repository.CursoRepository;
-import com.example.forum.repository.TopicoRepository;
 
 public class TopicoForm {
 
-	
+	@NotNull @NotEmpty @Length(min = 5)
 	String titulo;
+	@NotNull @NotEmpty @Length(min = 10)
 	String mensagem;
+	@NotNull @NotEmpty
 	String nomeCurso;
 	
 	public void setTitulo(String titulo) {
