@@ -23,7 +23,7 @@ public class TopicoDTO {
 			return mensagem;
 		}
 
-		public String getNomeCurso() {
+		public String getNomeCurso() {	
 			return nomeCurso;
 		}
 		
