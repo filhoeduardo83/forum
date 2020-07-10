@@ -1,4 +1,4 @@
-package com.example.forum.exception;
+package com.example.forum.config.validation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ValidationException {
+public class ValidationExceptionHandler {
 
 	@Autowired
 	private MessageSource messageSource;
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public List<FormError> handle(MethodArgumentNotValidException exception) {
+	public List<FormErrorDTO> handle(MethodArgumentNotValidException exception) {
 		
-		List<FormError> dto = new ArrayList<>();
+		List<FormErrorDTO> dto = new ArrayList<>();
 		
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 		
 		fieldErrors.forEach(e -> {
 			String mensagem = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-			FormError erro = new FormError(e.getField(), mensagem);
+			FormErrorDTO erro = new FormErrorDTO(e.getField(), mensagem);
 			dto.add(erro);
 		});
 		

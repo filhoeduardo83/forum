@@ -1,13 +1,15 @@
 package com.example.forum.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,13 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.example.forum.controller.dto.TopicoDTO;
+import com.example.forum.controller.form.TopicoForm;
+import com.example.forum.controller.form.UpdateTopicoForm;
 import com.example.forum.model.Topico;
-import com.example.forum.model.TopicoDTO;
-import com.example.forum.model.TopicoForm;
 import com.example.forum.repository.CursoRepository;
 import com.example.forum.repository.TopicoRepository;
 
@@ -39,12 +42,14 @@ private CursoRepository cursoRepository;
 	
 	@GetMapping
 	//@ResponseBody - Só era preciso quando a classe está marcada com @Controller
-	public List<TopicoDTO> findTopics(String nomeCurso) {
+	public Page<TopicoDTO> listTopics(@RequestParam(required=false) String nomeCurso, @RequestParam int pagina, @RequestParam int qtd) {
+	
+	Pageable paginacao = PageRequest.of(pagina, qtd);
 	
 		if(nomeCurso==null) {
-			return TopicoDTO.converter(topicoRepository.findAll());
+			return TopicoDTO.converter(topicoRepository.findAll(paginacao));
 		} else {	
-			return TopicoDTO.converter(topicoRepository.findByCursoNome(nomeCurso));
+			return TopicoDTO.converter(topicoRepository.findByCursoNome(nomeCurso, paginacao));
 		}
 	}
 	

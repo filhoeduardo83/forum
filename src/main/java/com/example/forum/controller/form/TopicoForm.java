@@ -1,10 +1,12 @@
-package com.example.forum.model;
+package com.example.forum.controller.form;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.example.forum.model.Curso;
+import com.example.forum.model.Topico;
 import com.example.forum.repository.CursoRepository;
 
 public class TopicoForm {

@@ -1,7 +1,12 @@
-package com.example.forum.model;
+package com.example.forum.controller.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.example.forum.model.Topico;
 
 public class TopicoDTO {
 	
@@ -27,9 +32,8 @@ public class TopicoDTO {
 			return nomeCurso;
 		}
 		
-		public static List<TopicoDTO> converter(List<Topico> topicos){
+		public static Page<TopicoDTO> converter(Page<Topico> topicos){
 			
-			return topicos.stream().map(TopicoDTO::new).collect(Collectors.toList())
-					
-;		}
+			return topicos.map(TopicoDTO::new);
+		}
 }

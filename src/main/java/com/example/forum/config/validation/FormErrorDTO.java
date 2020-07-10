@@ -1,11 +1,11 @@
-package com.example.forum.exception;
+package com.example.forum.config.validation;
 
-public class FormError {
+public class FormErrorDTO {
 
 	private String campo;
 	private String erro;
 	
-	public FormError(String campo, String erro) {
+	public FormErrorDTO(String campo, String erro) {
 		this.campo = campo;
 		this.erro = erro;
 	}
