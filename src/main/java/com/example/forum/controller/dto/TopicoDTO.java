@@ -1,5 +1,6 @@
 package com.example.forum.controller.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,11 +14,13 @@ public class TopicoDTO {
 	private Long id;
 	private String mensagem;
 	private String nomeCurso;
+	private LocalDateTime dataCriacao;
 	
 		public TopicoDTO(Topico topico) {
 			this.id = topico.getId();
 			this.mensagem = topico.getMensagem();
 			this.nomeCurso = topico.getCurso().getNome();
+			this.dataCriacao = topico.getDataCriacao();
 			
 		}
 		public Long getId() {
@@ -35,5 +38,9 @@ public class TopicoDTO {
 		public static Page<TopicoDTO> converter(Page<Topico> topicos){
 			
 			return topicos.map(TopicoDTO::new);
+		}
+		
+		public LocalDateTime getDataCriacao() {
+			return dataCriacao;
 		}
 }
