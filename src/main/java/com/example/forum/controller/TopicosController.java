@@ -45,7 +45,7 @@ private CursoRepository cursoRepository;
 	//@ResponseBody - Só era preciso quando a classe está marcada com @Controller
 	public Page<TopicoDTO> listTopics(@RequestParam(required = false) String nomeCurso, 
 			@PageableDefault(sort = "dataCriacao", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
-		
+		//Ex: localhost:8080/topicos/?page=1&&size=2
 		if (nomeCurso == null) {
 			Page<Topico> topicos = topicoRepository.findAll(paginacao);
 			return TopicoDTO.converter(topicos);
@@ -71,7 +71,8 @@ private CursoRepository cursoRepository;
 	}
 	
 	@PostMapping
-	public ResponseEntity<TopicoDTO> addTopic(@RequestBody @Valid TopicoForm topicoForm, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<TopicoDTO> addTopic(@RequestBody @Valid TopicoForm topicoForm, 
+			UriComponentsBuilder uriBuilder) {
 		
 		Topico topico = topicoForm.converter(cursoRepository);
 		topicoRepository.save(topico);
@@ -83,7 +84,8 @@ private CursoRepository cursoRepository;
 	
 	@PutMapping("/{id}")
 	@Transactional //Commit da transação se o método executar sem erro
-	public ResponseEntity<TopicoDTO> updateTopic(@RequestBody UpdateTopicoForm updateTopicoForm, @PathVariable Long id) {
+	public ResponseEntity<TopicoDTO> updateTopic(@RequestBody UpdateTopicoForm updateTopicoForm, 
+			@PathVariable Long id) {
 		
 		Optional<Topico> topico = topicoRepository.findById(id);
 		
