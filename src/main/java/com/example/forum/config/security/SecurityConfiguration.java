@@ -21,6 +21,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private AuthenticateService authenticateService;
 	
+	@Autowired
+	private TokenService tokenService;
+	
 	//Essa sobrescrita é obrigatória pois o AuthenticationManager não vem com a injeção de dependência ativado, precisando ser anotado como @Bean
 	@Override
 	@Bean
@@ -44,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().addFilterBefore(new AuthenticateTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		.and().addFilterBefore(new AuthenticateTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
 
 	}
 	
