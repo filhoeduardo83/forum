@@ -14,6 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.example.forum.repository.UsuarioRepository;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
@@ -23,6 +25,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 	
 	//Essa sobrescrita é obrigatória pois o AuthenticationManager não vem com a injeção de dependência ativado, precisando ser anotado como @Bean
 	@Override
@@ -47,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().addFilterBefore(new AuthenticateTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
+		.and().addFilterBefore(new AuthenticateTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
 
 	}
 	
